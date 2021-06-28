@@ -1,3 +1,7 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import 'keys.dart';
+
 const List<String> currenciesList = [
   'AUD',
   'BRL',
@@ -27,5 +31,7 @@ const List<String> cryptoList = [
   'ETH',
   'LTC',
 ];
+
+
 
 class CoinData {}
