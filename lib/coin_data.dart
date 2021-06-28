@@ -42,7 +42,7 @@ class CoinData {
   Future getCoinData() async {
     Uri url = Uri.https(
       'rest.coinapi.io',
-      'v1/exchangerate/BTC/USD',
+      'v1/exchangerate/BTC/$currency',
       {
         'apikey': kApiKey,
       },

@@ -4,6 +4,12 @@ import 'coin_data.dart';
 import 'dart:io' show Platform;
 
 class PriceScreen extends StatefulWidget {
+  PriceScreen({
+    this.coinData,
+  });
+
+  final coinData;
+
   @override
   _PriceScreenState createState() => _PriceScreenState();
 }
@@ -15,17 +21,17 @@ class _PriceScreenState extends State<PriceScreen> {
     getData();
   }
 
-void getData() async {
-  var coinData = await CoinData().getCoinData();
+  void getData() async {
+    var coinData = await CoinData(currency: selectedCurrency).getCoinData();
 
-  setState(() {
-    if (coinData == null) {
-      return;
-    }
-    currencyValue = coinData['rate'];
+    setState(() {
+      if (coinData == null) {
+        return;
+      }
+      currencyValue = coinData['rate'];
+    });
+  }
 
-  });
-}
   String selectedCurrency = 'USD';
   double currencyValue;
 
@@ -48,6 +54,7 @@ void getData() async {
         setState(
           () {
             selectedCurrency = value;
+            getData();
           },
         );
       },
@@ -65,7 +72,10 @@ void getData() async {
       backgroundColor: Colors.lightBlue,
       itemExtent: 32.0,
       onSelectedItemChanged: (selectedIndex) {
-        print(selectedIndex);
+        setState(() {
+          selectedCurrency = currenciesList[selectedIndex];
+          getData();
+        });
       },
       children: pickerItems,
     );
@@ -92,7 +102,7 @@ void getData() async {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ${currencyValue == null ? '?' : currencyValue.toStringAsFixed(2)} USD',
+                  '1 BTC = ${currencyValue == null ? '?' : currencyValue.toStringAsFixed(2)} $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
