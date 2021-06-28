@@ -32,6 +32,30 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
+class CoinData {
+  CoinData({
+    this.currency,
+  });
 
+  final String currency;
 
-class CoinData {}
+  Future getCoinData() async {
+    Uri url = Uri.https(
+      'rest.coinapi.io',
+      'v1/exchangerate/BTC/USD',
+      {
+        'apikey': kApiKey,
+      },
+    );
+
+    http.Response response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      String data = response.body;
+
+      return convert.jsonDecode(data);
+    } else {
+      print(response.statusCode);
+    }
+  }
+}
